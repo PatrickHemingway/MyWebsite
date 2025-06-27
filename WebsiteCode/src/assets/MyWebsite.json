@@ -1,0 +1,25 @@
+{
+    "navBar": {
+        "title": "Pat's Place",
+        "links": [
+            {
+                "id": 0,
+                "text": "Link1",
+                "link": ""
+            },
+            {
+                "id": 1,
+                "text": "Link2",
+                "link": ""
+            },
+            {
+                "id": 2,
+                "text": "Link3",
+                "link": ""
+            }
+        ]
+    },
+    "projects": {
+        
+    }
+}
