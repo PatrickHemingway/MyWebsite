@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 
 const DuckTable = () => {
     const [ducks, setDucks] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [races, setRaces] = useState([]);
     const [selectedRaceId, setSelectedRaceId] = useState(null);
     const [newRaceName, setNewRaceName] = useState('');
+    const [totalRaces, setTotalRaces] = useState(0);
+
 
     const fetchRaces = async (attemptedCreate = false) => {
         const res = await fetch('http://localhost:3001/races');
@@ -38,9 +39,9 @@ const DuckTable = () => {
         if (!selectedRaceId) return;
         fetch(`http://localhost:3001/races/${selectedRaceId}/ducks`)
           .then((res) => res.json())
-          .then((data) => {
-            setDucks(data);
-            setLoading(false);
+          .then(({ ducks, totalRaces}) => {
+            setDucks(ducks);
+            setTotalRaces(totalRaces);
           });
       };      
       
@@ -95,17 +96,19 @@ const DuckTable = () => {
   const copyStats = () => {
     const totalAdjusted = ducks.reduce((sum, duck) => sum + (duck.losses + 1), 0);
   
-    let statText = '.       Win Probability\n';
+    let statText = '.       Win Probability    Win Rate\n';
     ducks.forEach((duck) => {
       const adjusted = duck.losses + 1;
       const prob = ((adjusted / totalAdjusted) * 100).toFixed(0); // Round to nearest %
-      statText += `${duck.name}:       ${prob}%\n`;
+      const winRate = totalRaces ? ((duck.wins / totalRaces) * 100).toFixed(0) + '%' : '-';
+      statText += `${duck.name}:       ${prob}%                 ${winRate}\n`;
     });
   
     navigator.clipboard.writeText(statText).catch((err) => {
-        console.error('Copy failed:', err);
+      console.error('Copy failed:', err);
     });
   };
+  
 
   if (!selectedRaceId) return <p>Loading or initializing first race...</p>;
 
@@ -169,6 +172,7 @@ const DuckTable = () => {
             <th style={{ textAlign: 'left', padding: '8px' }}>Name</th>
             <th style={{ textAlign: 'left', padding: '8px' }}>Losses</th>
             <th style={{ textAlign: 'left', padding: '8px' }}>Win Probability</th>
+            <th style={{ textAlign: 'left', padding: '8px' }}>Win Rate</th>
             <th style={{ textAlign: 'left', padding: '8px' }}>Actions</th>
           </tr>
         </thead>
@@ -176,11 +180,13 @@ const DuckTable = () => {
           {ducks.map((duck) => {
             const adjustedLoss = duck.losses + 1; // more losses = more "urgency"
             const winProb = ((adjustedLoss / totalAdjusted) * 100).toFixed(2);
+            const winRate = totalRaces ? ((duck.wins / totalRaces) * 100).toFixed(1) + '%' : '-';
             return (
               <tr key={duck.id}>
                 <td style={{ padding: '8px' }}>{duck.name}</td>
                 <td style={{ padding: '8px' }}>{duck.losses}</td>
                 <td style={{ padding: '8px' }}>{winProb}%</td>
+                <td style={{ padding: '8px' }}>{winRate}</td>
                 <td style={{ padding: '8px' }}>
                   <button onClick={() => addLoss(duck.id)} style={{ marginRight: '8px' }}>
                     Add Loss

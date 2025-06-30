@@ -1,4 +1,4 @@
-// Create the db
+-- Create the db
 CREATE DATABASE duck_race_db;
 
 \c duck_race_db
@@ -29,7 +29,7 @@ INSERT INTO ducks (name) VALUES ('Duck3');
 INSERT INTO ducks (name) VALUES ('Duck4');
 INSERT INTO ducks (name) VALUES ('Duck5');
 
-//Out of psql and in node terminal
+--Out of psql and in node terminal
 mkdir duck-backend
 cd duck-backend
 npm init -y
@@ -40,13 +40,13 @@ touch server.js
     AI Use:
     Added server.js code
 
-        Go to: http://localhost:3001/ducks
+        Go to: http:--localhost:3001/ducks
 
     Added react component
 
 Back to psql:
 
-// Editing Stats
+-- Editing Stats
 UPDATE ducks
 SET losses = 3
 WHERE name = 'Duck2';
@@ -55,13 +55,13 @@ UPDATE ducks
 SET losses = 0
 WHERE name = 'Duck3';
 
-***** END OF BASIC TABLE *****
-***** START OF MULTI TABLE *****
+-- END OF BASIC TABLE
+-- START OF MULTI TABLE
 
-// psql
+-- psql
 
 DROP TABLE IF EXISTS ducks;
-// Can no longer view table
+-- Can no longer view table
 
 CREATE TABLE races (
     id SERIAL PRIMARY KEY,
@@ -77,4 +77,5 @@ CREATE TABLE race_ducks (
     losses INTEGER DEFAULT 0
 );
 
-// Update server.js with correct imports
+-- Update server.js with correct imports
+-- Updated frontend with many buttons and tools.

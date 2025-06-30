@@ -38,20 +38,34 @@ app.get('/races', async (req, res) => {
   }
 });
 
-//Endpoint to get all of the ducks
-app.get('/races/:raceId/ducks', async (req, res) => {
+  app.get('/races/:raceId/ducks', async (req, res) => {
     const { raceId } = req.params;
+  
     try {
-      const result = await pool.query(
+      const raceRes = await pool.query(
+        'SELECT total_races FROM races WHERE id = $1',
+        [raceId]
+      );
+  
+      if (raceRes.rows.length === 0) {
+        return res.status(404).send('Race not found');
+      }
+  
+      const ducksRes = await pool.query(
         'SELECT * FROM race_ducks WHERE race_id = $1 ORDER BY id',
         [raceId]
       );
-      res.json(result.rows);
+  
+      res.json({
+        ducks: ducksRes.rows,
+        totalRaces: raceRes.rows[0].total_races,
+      });
     } catch (err) {
-      console.error(err);
-      res.status(500).send('Error fetching ducks for race');
+      console.error('Error fetching ducks and race info:', err);
+      res.status(500).send('Server error');
     }
   });
+  
 
   app.post('/races', async (req, res) => {
     const { name } = req.body;
@@ -98,9 +112,7 @@ app.get('/races/:raceId/ducks', async (req, res) => {
     }
   });
   
-
-// PATCH to increment losses
-// PATCH to increment losses
+  
 // PATCH to increment a single duck's losses in a specific race
 app.patch('/races/:raceId/ducks/:duckId/loss', async (req, res) => {
     const { raceId, duckId } = req.params;
