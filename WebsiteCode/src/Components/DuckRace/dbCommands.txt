@@ -46,6 +46,7 @@ touch server.js
 
 Back to psql:
 
+// Editing Stats
 UPDATE ducks
 SET losses = 3
 WHERE name = 'Duck2';
@@ -53,3 +54,27 @@ WHERE name = 'Duck2';
 UPDATE ducks
 SET losses = 0
 WHERE name = 'Duck3';
+
+***** END OF BASIC TABLE *****
+***** START OF MULTI TABLE *****
+
+// psql
+
+DROP TABLE IF EXISTS ducks;
+// Can no longer view table
+
+CREATE TABLE races (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    total_races INTEGER DEFAULT 0
+);
+
+CREATE TABLE race_ducks (
+    id SERIAL PRIMARY KEY,
+    race_id INTEGER REFERENCES races(id) ON DELETE CASCADE,
+    name TEXT NOT NULL,
+    wins INTEGER DEFAULT 0,
+    losses INTEGER DEFAULT 0
+);
+
+// Update server.js with correct imports

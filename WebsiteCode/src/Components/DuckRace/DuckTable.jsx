@@ -1,34 +1,68 @@
 import React, { useEffect, useState } from 'react';
 
 const DuckTable = () => {
-  const [ducks, setDucks] = useState([]);
-  const [loading, setLoading] = useState(true);
+    const [ducks, setDucks] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [races, setRaces] = useState([]);
+    const [selectedRaceId, setSelectedRaceId] = useState(null);
+    const [newRaceName, setNewRaceName] = useState('');
 
-  const fetchDucks = () => {
-    fetch('http://localhost:3001/ducks')
-      .then((res) => res.json())
-      .then((data) => {
-        setDucks(data);
-        setLoading(false);
-        
-      });
-  };
+    const fetchRaces = async (attemptedCreate = false) => {
+        const res = await fetch('http://localhost:3001/races');
+        const data = await res.json();
+      
+        if (data.length === 0 && !attemptedCreate) {
+          // Try to create the first race only once
+          const defaultName = "Race1";
+          const createRes = await fetch('http://localhost:3001/races', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: defaultName }),
+          });
+      
+          if (createRes.ok) {
+            return fetchRaces(true); // try again after creation
+          } else {
+            console.error("Failed to create initial race");
+            return;
+          }
+        }
+      
+        setRaces(data);
+        if (!selectedRaceId && data.length > 0) {
+          setSelectedRaceId(data[0].id);
+        }
+      };
 
-  useEffect(() => {
-    setTimeout(() => {
-        fetchDucks();
-    }, 1000);
-  }, []);
+      const fetchDucks = () => {
+        if (!selectedRaceId) return;
+        fetch(`http://localhost:3001/races/${selectedRaceId}/ducks`)
+          .then((res) => res.json())
+          .then((data) => {
+            setDucks(data);
+            setLoading(false);
+          });
+      };      
+      
+      useEffect(() => {
+        fetchRaces();
+      }, []);      
+
+      useEffect(() => {
+        if (selectedRaceId) {
+          fetchDucks();
+        }
+      }, [selectedRaceId]);      
 
   const addLoss = async (id) => {
-    await fetch(`http://localhost:3001/ducks/${id}/loss`, {
+    await fetch(`http://localhost:3001/races/${selectedRaceId}/ducks/${id}/loss`, {
       method: 'PATCH',
     });
     fetchDucks();
   };
 
   const markWin = async (id) => {
-    const response = await fetch(`http://localhost:3001/ducks/${id}/win`, {
+    const response = await fetch(`http://localhost:3001/races/${selectedRaceId}/ducks/${id}/win`, {
       method: 'PATCH',
     });
   
@@ -38,11 +72,24 @@ const DuckTable = () => {
   };
 
   const resetAll = async () => {
-    const response = await fetch('http://localhost:3001/ducks/reset', {
+    const response = await fetch(`http://localhost:3001/races/${selectedRaceId}/reset`, {
       method: 'PATCH',
     });
     const updatedDucks = await response.json();
     setDucks(updatedDucks);
+  };
+
+  const addDuck = async () => {
+    const duckNumber = ducks.length + 1;
+    const name = `Duck${duckNumber}`;
+    await fetch(`http://localhost:3001/races/${selectedRaceId}/ducks`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name }),
+    });
+    fetch(`http://localhost:3001/races/${selectedRaceId}/ducks`)
+      .then(res => res.json())
+      .then(data => setDucks(data));
   };
 
   const copyStats = () => {
@@ -60,7 +107,7 @@ const DuckTable = () => {
     });
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (!selectedRaceId) return <p>Loading or initializing first race...</p>;
 
   const totalDucks = ducks.length;
 
@@ -69,7 +116,53 @@ const DuckTable = () => {
 
   return (
     <div>
-      <h2 style={{ textAlign: 'left' }}>Ducks and Their Losses</h2>
+      <h2 style={{ textAlign: 'left' }}>Race {selectedRaceId}: Ducks and Their Losses</h2>
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginBottom: '1rem' }}>
+            <select
+                value={selectedRaceId || ''}
+                onChange={(e) => setSelectedRaceId(Number(e.target.value))}
+            >
+                {races.map(race => (
+                <option key={race.id} value={race.id}>
+                    {race.name}
+                </option>
+                ))}
+            </select>
+
+            <input
+                type="text"
+                placeholder="New race name"
+                value={newRaceName}
+                onChange={(e) => setNewRaceName(e.target.value)}
+            />
+
+            <button
+                onClick={async () => {
+                if (!newRaceName.trim()) return;
+                await fetch('http://localhost:3001/races', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: newRaceName }),
+                });
+                setNewRaceName('');
+                fetchRaces(); // refresh race list
+                }}
+            >
+                ➕ Add Race
+            </button>
+            <button
+                onClick={async () => {
+                if (!selectedRaceId) return;
+                    await fetch(`http://localhost:3001/races/${selectedRaceId}`, {
+                        method: 'DELETE',
+                    });
+                    setSelectedRaceId(null);
+                    fetchRaces();
+                }}
+            >
+                🗑️ Delete Race
+            </button>
+        </div>
       <table style={{ borderCollapse: 'collapse', width: '100%' }}>
         <thead>
           <tr>
@@ -104,6 +197,7 @@ const DuckTable = () => {
       <div style={{ marginTop: '1rem', textAlign: 'left' }}>
             <button onClick={resetAll}>🔄 Reset All Losses</button>
             <button onClick={copyStats}>📋 Copy Stats</button>
+            <button onClick={addDuck}>🦆 Add Duck</button>
         </div>
     </div>
   );
