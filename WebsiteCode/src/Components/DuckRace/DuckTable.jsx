@@ -80,18 +80,17 @@ const DuckTable = () => {
     setDucks(updatedDucks);
   };
 
-  const addDuck = async () => {
-    const duckNumber = ducks.length + 1;
-    const name = `Duck${duckNumber}`;
-    await fetch(`http://localhost:3001/races/${selectedRaceId}/ducks`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name }),
-    });
-    fetch(`http://localhost:3001/races/${selectedRaceId}/ducks`)
-      .then(res => res.json())
-      .then(data => setDucks(data));
-  };
+const addDuck = async () => {
+  const duckNumber = ducks.length + 1;
+  const name = `Duck${duckNumber}`;
+  await fetch(`http://localhost:3001/races/${selectedRaceId}/ducks`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name }),
+  });
+  fetchDucks(); // Consistent, safe
+};
+
 
   const copyStats = () => {
     const totalAdjusted = ducks.reduce((sum, duck) => sum + (duck.losses + 1), 0);

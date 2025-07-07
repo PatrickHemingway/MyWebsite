@@ -149,9 +149,6 @@ app.patch('/races/:raceId/ducks/:duckId/win', async (req, res) => {
     
         // Increment winner's wins
         await client.query('UPDATE race_ducks SET wins = wins + 1 WHERE id = $1 AND race_id = $2', [duckId, raceId]);
-    
-        // Reset the winning duck
-        await client.query('UPDATE race_ducks SET losses = 0 WHERE id = $1', [duckId]);
 
         // Increment losses for everyone else
         await client.query(
