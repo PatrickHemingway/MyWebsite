@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./Components/NavBar/navBar";
 import ProjectList from "./Components/ProjectList/projectList";
 import DuckRace from "./Projects/DuckRace/DuckTable";
-import FlashCards from "./Projects/DuckRace/DuckTable";
+import FlashCards from "./Projects/FlashCards/flashCards";
 import siteData from "./assets/MyWebsite.json";
 import './App.css';
 
