@@ -49,27 +49,328 @@
         {
             "topic": "Python",
             "cards": [
-            {
-                "question": "What is JSX?",
-                "answer": "JSX is a syntax extension for JavaScript that allows you to write HTML inside React."
-            },
-            {
-                "question": "What is useState?",
-                "answer": "A React hook that lets you add state to function components."
-            }
+                {
+                "question": "What is Python?",
+                "answer": "Python is an open-source, interpreted, multi-paradigm programming language. It emphasizes code readability and simplicity. CPython is the most widely used implementation of the Python language."
+                },
+                {
+                "question": "Running Python",
+                "answer": "You can run Python via a command-line REPL (Read-Eval-Print Loop) or by executing `.py` script files using `python script.py`."
+                },
+                {
+                "question": "Development Tools",
+                "answer": "REPLs (Read-Eval-Print Loops) include the Python Shell, IPython, and Jupyter. Jupyter is a web-based interactive computing environment that supports live code, equations, visualizations, and narrative text."
+                },
+                {
+                "question": "Package Managers",
+                "answer": "`pip` is the default package manager included with Python 3.4+. `conda` is another package manager, primarily used within the Anaconda distribution for managing environments and dependencies."
+                },
+                {
+                "question": "Variables",
+                "answer": "Python is dynamically typed — variable types are determined at runtime. Naming conventions typically use lowercase with underscores (e.g., `my_variable`)."
+                },
+                {
+                "question": "Data Types",
+                "answer": "• Numeric: `int`, `float`, `complex`, `bool`\n• Sequence: `str`, `list`, `tuple`, `bytes`\n• Mapping: `dict`\n• Set Types: `set`, `frozenset`"
+                },
+                {
+                "question": "Type Compatibility",
+                "answer": "Operations between incompatible types (e.g., `'hello' + 2`) will result in a TypeError. Type conversions must be explicit."
+                },
+                {
+                "question": "Scope",
+                "answer": "Python has local and global scopes. You can inspect them using the built-in `locals()` and `globals()` functions."
+                },
+                {
+                "question": "String Handling",
+                "answer": "Common methods include `.find()`, `.split()`, `.count()`, etc.\nRaw strings (prefix with `r`) prevent escaping characters.\nFormatting options include `.format()` and f-strings (e.g., `f\"Hello {name}\"`)."
+                },
+                {
+                "question": "Other Concepts",
+                "answer": "`None` is used to represent null values.\nPython supports standard operators: arithmetic (`+`, `-`, `*`, `/`), relational (`==`, `<`, `>`), and boolean (`and`, `or`, `not`)."
+                },
+                {
+                "question": "Control Flow",
+                "answer": "`if-elif-else` handles branching logic.\nTernary syntax: `x if condition else y`\nLoops include `for` and `while`, with optional `break` and `continue`."
+                },
+                {
+                "question": "Common Data Structures",
+                "answer": "• Lists: mutable, ordered — methods like `.append()`, `.insert()`, `.remove()`, `.sort()`\n• Tuples: immutable, often used for fixed-size records\n• Dictionaries: key-value pairs — methods include `.get()`, `.items()`, `.keys()`, `.values()`\n• Sets: unordered collections with no duplicates — operations include union (`|`), intersection (`&`), difference (`-`), symmetric difference (`^`)"
+                },
+                {
+                "question": "Defining Functions",
+                "answer": "Functions are defined using the `def` keyword:\n```python\ndef func_name(params):\n    # function body\n```"
+                },
+                {
+                "question": "Function Parameters",
+                "answer": "Python supports default parameters, keyword arguments, and arbitrary argument lists using `*args` and `**kwargs`."
+                },
+                {
+                "question": "Functional Programming Concepts",
+                "answer": "• Pure functions: no side effects\n• Higher-order functions: accept or return other functions\n• Lambda functions: anonymous inline functions\n• Built-ins: `map()`, `filter()`, `reduce()`\nExample:\n```python\nlist(map(lambda x: x + x, [2, 3, 4, 5]))  # [4, 6, 8, 10]\n```"
+                },
+                {
+                "question": "Date & Time",
+                "answer": "Use the `datetime` module for date and time manipulation. The `.strftime()` method is used to format dates as strings."
+                }
             ]
         },
         {
-            "topic": "JavaScript",
+            "topic": "Data Engineering",
             "cards": [
-            {
-                "question": "What is a closure?",
-                "answer": "A closure is a function that has access to its outer function scope even after the outer function has returned."
-            },
-            {
-                "question": "What is hoisting?",
-                "answer": "Hoisting is JavaScript's behavior of moving declarations to the top of a scope before code execution."
-            }
+                {
+                "question": "What are the 3 V's of Big Data?",
+                "answer": "Volume (amount of data), Velocity (speed of data processing), and Variety (diversity of formats)."
+                },
+                {
+                "question": "What is the CAP Theorem?",
+                "answer": "In distributed systems, you can only guarantee two of the following three: Consistency, Availability, and Partition Tolerance."
+                },
+                {
+                "question": "How does the CAP Theorem apply to NoSQL?",
+                "answer": "During network partition (P), systems must choose between Consistency (C) and Availability (A). NoSQL databases often favor Availability and Partition Tolerance, leading to eventual consistency."
+                },
+                {
+                "question": "What is Data Locality?",
+                "answer": "A principle where computation is moved to the node where the data resides to minimize network transfer and improve performance."
+                },
+                {
+                "question": "What is Eventual Consistency?",
+                "answer": "A consistency model where updates propagate over time, and all nodes eventually reflect the same data state, trading immediate accuracy for availability."
+                },
+                {
+                "question": "Why did Big Data shift away from traditional RDBMS?",
+                "answer": "RDBMS lack scalability and rely on rigid schemas and single-node processing, which can't handle the volume, velocity, and variety of Big Data."
+                },
+                {
+                "question": "What is Hadoop?",
+                "answer": "An open-source framework for distributed storage (HDFS) and processing (MapReduce) of large data sets using commodity hardware."
+                },
+                {
+                "question": "What are Hadoop's key components?",
+                "answer": "• HDFS: distributed file system with block replication.\n• MapReduce: programming model for processing large datasets.\n• YARN: resource management and job scheduling."
+                },
+                {
+                "question": "What is Sharding?",
+                "answer": "A technique to horizontally partition a database across multiple servers or nodes for scalability and performance."
+                },
+                {
+                "question": "What is Data Engineering?",
+                "answer": "The design, construction, and maintenance of data pipelines and infrastructure to make data usable for analytics or operational systems."
+                },
+                {
+                "question": "How does Data Engineering differ from Data Science?",
+                "answer": "Data Engineers build systems to collect and process data. Data Scientists analyze that data to derive insights and build models."
+                },
+                {
+                "question": "What is ETL?",
+                "answer": "Extract, Transform, Load — a data pipeline process for moving and processing data from sources to target systems."
+                },
+                {
+                "question": "What is Data Wrangling?",
+                "answer": "Cleaning and transforming raw data into structured formats suitable for analysis."
+                },
+                {
+                "question": "What is Schema-on-Read?",
+                "answer": "A flexible data approach where schema is applied when data is read, not when it is written."
+                },
+                {
+                "question": "What skills are required for a Data Engineer?",
+                "answer": "Python, SQL, cloud platforms, data modeling, performance tuning, and system integration."
+                },
+                {
+                "question": "What is JSON?",
+                "answer": "JavaScript Object Notation — a lightweight, human-readable format commonly used in APIs and config files."
+                },
+                {
+                "question": "What is Apache Avro?",
+                "answer": "A row-based format with schema evolution support, used in the Hadoop ecosystem."
+                },
+                {
+                "question": "What are Protocol Buffers?",
+                "answer": "Compact, efficient, cross-language serialization developed by Google for structured data exchange."
+                },
+                {
+                "question": "What are the phases of a Data Processing Pipeline?",
+                "answer": "1. Data Discovery\n2. Data Ingestion\n3. Data Cleaning\n4. Exploratory Data Analysis (EDA)\n5. Model Planning/Building\n6. Communicating Results\n7. Production Roll-Out"
+                },
+                {
+                "question": "What is Data Lineage?",
+                "answer": "The complete lifecycle of data, tracking its origin, movement, and transformations across systems."
+                },
+                {
+                "question": "What is Apache Airflow?",
+                "answer": "A workflow engine that uses Directed Acyclic Graphs (DAGs) to schedule and monitor data processing tasks."
+                },
+                {
+                "question": "What is Apache NiFi?",
+                "answer": "A real-time data ingestion and flow-based programming tool with a visual UI and provenance tracking."
+                },
+                {
+                "question": "What are common raw data formats?",
+                "answer": "CSV (Comma-Separated Values), TSV (Tab-Separated Values), JSON (JavaScript Object Notation)."
+                },
+                {
+                "question": "What is Apache Parquet?",
+                "answer": "A columnar storage format optimized for reading and compressing large datasets, ideal for systems like Spark."
+                },
+                {
+                "question": "What is Apache ORC?",
+                "answer": "A high-performance columnar storage format used in Hive, supporting indexing and compression."
+                },
+                {
+                "question": "What is Apache Avro used for?",
+                "answer": "A row-based, schema-aware binary format used for efficient serialization and storage of data."
+                },
+                {
+                "question": "What is AWS Athena?",
+                "answer": "A serverless SQL query service to analyze data in Amazon S3 using formats like Parquet and ORC."
+                },
+                {
+                "question": "What is AWS Glue?",
+                "answer": "A fully managed ETL service that crawls, transforms, and catalogs data stored in various formats like JSON and Parquet."
+                },
+                {
+                "question": "What is SerDe?",
+                "answer": "Short for Serializer/Deserializer — libraries that define how structured data is read and written (e.g., OpenCSVSerDe, GrokSerDe)."
+                },
+                {
+                "question": "What are key tools in the Hadoop Ecosystem?",
+                "answer": "• HDFS: storage\n• MapReduce: batch processing\n• Hive: SQL-like queries\n• Pig: scripting\n• Spark: in-memory processing\n• HBase: NoSQL\n• Mahout: machine learning\n• Ambari: admin UI\n• Oozie: workflow scheduler\n• ZooKeeper: coordination\n• Sqoop: RDBMS import/export"
+                }
+            ]
+        },
+        {
+            "topic": "Python Database Quiz",
+            "cards": [
+                {
+                "question": "What are the primary characteristics of Python?",
+                "answer": "Python is an open-source, interpreted, multi-paradigm programming language that supports imperative, object-oriented, and functional programming styles."
+                },
+                {
+                "question": "What are the common ways to run Python programs?",
+                "answer": "Python can be run via the command line, a REPL (Read-Eval-Print Loop), or by executing script files."
+                },
+                {
+                "question": "What is the Global Interpreter Lock (GIL)?",
+                "answer": "The GIL is a CPython mechanism that prevents multiple threads from executing Python bytecodes simultaneously, limiting true parallelism in multi-threaded programs."
+                },
+                {
+                "question": "What are two popular package managers for Python?",
+                "answer": "pip (bundled with Python 3.4+) and conda (included in the Anaconda distribution)."
+                },
+                {
+                "question": "What does it mean that Python is dynamically typed?",
+                "answer": "You do not need to declare a variable's type explicitly. The interpreter infers the type at runtime."
+                },
+                {
+                "question": "What types are included in Python's sequence types?",
+                "answer": "str, list, tuple, and bytes."
+                },
+                {
+                "question": "What does a TypeError indicate in Python?",
+                "answer": "A TypeError occurs when an operation is attempted between incompatible types, such as adding a string and an integer."
+                },
+                {
+                "question": "How can you inspect the current scope in Python?",
+                "answer": "By using the built-in functions globals() and locals()."
+                },
+                {
+                "question": "What is the syntax for a ternary expression in Python?",
+                "answer": "x if condition else y"
+                },
+                {
+                "question": "What are some common list methods?",
+                "answer": ".append(), .insert(), .remove(), .sort()"
+                },
+                {
+                "question": "What distinguishes a set from a list?",
+                "answer": "Sets are unordered and only contain unique elements, while lists are ordered and can include duplicates."
+                },
+                {
+                "question": "What do the zip() and enumerate() functions do?",
+                "answer": "zip() combines multiple iterables into tuples. enumerate() adds an index to items in an iterable."
+                },
+                {
+                "question": "What is the syntax to define a function in Python?",
+                "answer": "def function_name(parameters):"
+                },
+                {
+                "question": "What are lambda functions?",
+                "answer": "Lambda functions are anonymous, inline functions used for short, simple operations."
+                },
+                {
+                "question": "What are *args and **kwargs used for?",
+                "answer": "*args allows you to pass a variable number of positional arguments. **kwargs allows you to pass a variable number of keyword arguments."
+                },
+                {
+                "question": "How do you import functions from another module?",
+                "answer": "Using import statements like: import module, from module import function, or import module as alias."
+                },
+                {
+                "question": "What are the 3 V's of Big Data?",
+                "answer": "Volume (amount), Velocity (speed), and Variety (types and formats)."
+                },
+                {
+                "question": "What is the CAP Theorem?",
+                "answer": "In a distributed system, you can only guarantee two out of the following three: Consistency, Availability, and Partition Tolerance."
+                },
+                {
+                "question": "What tools are part of the Hadoop ecosystem?",
+                "answer": "HDFS, MapReduce, Hive, Pig, HBase, Mahout, Spark, ZooKeeper, and Oozie."
+                },
+                {
+                "question": "What is the difference between client-server and distributed computing?",
+                "answer": "Client-server is centralized, while distributed computing uses interconnected systems to share data and processing."
+                },
+                {
+                "question": "What is data engineering?",
+                "answer": "Data engineering involves designing, building, and maintaining systems to collect, process, and store data for analysis."
+                },
+                {
+                "question": "What are common responsibilities of a data engineer?",
+                "answer": "Creating ETL pipelines, managing data storage, optimizing queries, and ensuring data availability and quality."
+                },
+                {
+                "question": "What is the difference between data engineering and data science?",
+                "answer": "Data engineering focuses on infrastructure and data pipelines, while data science focuses on analyzing data and building predictive models."
+                },
+                {
+                "question": "What are common data exchange formats?",
+                "answer": "JSON, Avro, XML, and Protocol Buffers."
+                },
+                {
+                "question": "What are the phases of a data processing pipeline?",
+                "answer": "Discovery, Harvesting, Priming, EDA (Exploratory Data Analysis), Model Planning, and Model Building."
+                },
+                {
+                "question": "What is EDA and why is it important?",
+                "answer": "Exploratory Data Analysis helps reveal patterns, detect anomalies, and guide model development."
+                },
+                {
+                "question": "What is a DAG in data workflows?",
+                "answer": "DAG stands for Directed Acyclic Graph. It represents tasks and their dependencies in non-circular order."
+                },
+                {
+                "question": "What tools help manage data workflows?",
+                "answer": "Apache Airflow for batch workflows, and Apache NiFi for real-time data flows."
+                },
+                {
+                "question": "What are examples of columnar data formats?",
+                "answer": "Apache Parquet, ORC, and AVRO."
+                },
+                {
+                "question": "What are the advantages of columnar formats?",
+                "answer": "Better compression, faster queries, and optimized for analytical workloads."
+                },
+                {
+                "question": "What is JSON used for?",
+                "answer": "A lightweight data format used in APIs and configuration files."
+                },
+                {
+                "question": "What AWS tools work with various data formats?",
+                "answer": "AWS Glue and Athena can process CSV, JSON, Parquet, and more directly from S3."
+                }
             ]
         }
     ]

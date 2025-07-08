@@ -1,3 +1,8 @@
+:root {
+  --navy: #0a1a40;
+  --navy-light: #24345c;
+}
+
 .flashcard-page {
   padding: 2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -9,7 +14,7 @@
   font-size: 2.4rem;
   font-weight: 600;
   margin-bottom: 2rem;
-  color: #222;
+  color: var(--navy);
   text-align: center;
 }
 
@@ -37,18 +42,15 @@
 
 .flashcard-list {
   overflow: hidden;
-  max-height: 0;
   opacity: 0;
-  transform: translateY(-10px);
-  transition: all 0.4s ease;
-  padding: 0 1rem;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .flashcard-list.active {
-  max-height: 1000px; /* large enough to reveal all cards */
+  transform: scaleY(1);
   opacity: 1;
-  transform: translateY(0);
-  padding-top: 1rem;
 }
 
 .flashcard {
@@ -66,19 +68,23 @@
 }
 
 .flashcard-question {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #222;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--navy);
+  line-height: 1.5;
 }
 
 .flashcard-answer {
   margin-top: 0.5rem;
-  font-size: 1rem;
-  color: #444;
+  font-size: 1.15rem;
+  font-weight: 350;
+  color: var(--navy-light);
   opacity: 0;
   max-height: 0;
   overflow: hidden;
   transition: all 0.4s ease;
+  white-space: pre-wrap;
+  line-height: 1.6;
 }
 
 .flashcard.flipped .flashcard-answer {
