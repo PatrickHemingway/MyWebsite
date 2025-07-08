@@ -1,0 +1,81 @@
+.project-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0rem;
+  padding-top: 1.5rem;
+}
+
+.project-card {
+  border-radius: 12px;
+  position: relative;
+}
+
+.card-top-border {
+  position: absolute;
+  width: 100%;
+  border-top: 1px solid #ccc;
+  margin: 0;
+}
+
+.project-content {
+  display: flex;
+  align-items: center;
+  margin-top: .5rem;
+  gap: 2rem;
+}
+
+.project-info {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.project-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #222;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+  transition: text-shadow 0.4s ease;
+}
+
+.project-title:hover {
+  text-shadow: 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.project-github {
+  font-size: 1.1rem;
+  color: #888;
+  text-decoration: none;
+}
+
+.project-github:hover {
+  text-decoration: underline;
+}
+
+.project-image {
+  height: 120px;
+  width: 200px;
+  border-radius: 10px;
+  object-fit: contain;
+  filter: grayscale(100%); /* 👈 tint effect */
+  transition: 
+    transform 0.2s ease, 
+    box-shadow 0.2s ease, 
+    filter 0.4s ease; /* 👈 smooth color fade-in */
+}
+
+.project-image:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  filter: grayscale(0%); /* 👈 remove tint on hover */
+}
+
+
+.project-description {
+  flex: 1;
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.5;
+}

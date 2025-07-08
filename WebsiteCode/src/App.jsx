@@ -1,21 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import NavBar from "./Components/NavBar/navBar"
-import DuckTable from "./Components/DuckRace/DuckTable"
-import siteData from "./assets/MyWebsite.json"
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NavBar from "./Components/NavBar/navBar";
+import ProjectList from "./Components/ProjectList/projectList";
+import DuckRace from "./Projects/DuckRace/DuckTable";
+import FlashCards from "./Projects/DuckRace/DuckTable";
+import siteData from "./assets/MyWebsite.json";
+import './App.css';
 
 function App() {
-
   return (
-    <>
-      <div>
-        <NavBar navData={siteData.navBar}/>
-        <DuckTable />
-      </div>
-    </>
-  )
+    <Router>
+      <NavBar navData={siteData.navBar} />
+      <Routes>
+        <Route path="/" element={<ProjectList projects={siteData.projects} />} />
+        <Route path="/JavaScriptDuckRace" element={<DuckRace />} />
+        <Route path="/FlashCards" element={<FlashCards />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

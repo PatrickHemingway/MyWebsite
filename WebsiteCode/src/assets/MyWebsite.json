@@ -19,7 +19,30 @@
             }
         ]
     },
-    "projects": {
-        
-    }
+    "projects": [
+        {
+            "id": "1",
+            "title": "Flash Cards",
+            "github": "https://github.com/PatrickHemingway/MyWebsite",
+            "image": "/GlassTree.png",
+            "link": "/FlashCards",
+            "description": "An interactive flash card tool to help students memorize concepts efficiently with spaced repetition."
+        },
+        {
+            "id": "2",
+            "title": "Duck Race",
+            "github": "https://github.com/PatrickHemingway/MyWebsite",
+            "image": "/YellowGlassDuck.png",
+            "link": "/JavaScriptDuckRace",
+            "description": "A duck racing stats tracker and simulator built with React and a PostgreSQL backend."
+        },
+        {
+            "id": "3",
+            "title": "Duck Race",
+            "github": "https://github.com/PatrickHemingway/MyWebsite",
+            "image": "/GreenGlassDuck.png",
+            "link": "/ReactDuckRace",
+            "description": "A duck racing stats tracker and simulator built with React and a PostgreSQL backend."
+        }
+    ]
 }
