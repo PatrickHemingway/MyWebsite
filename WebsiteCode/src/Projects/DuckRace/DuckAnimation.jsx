@@ -3,15 +3,11 @@ import React, { useRef, useEffect } from 'react';
 const DuckAnimation = () => {
   const canvasRef = useRef(null);
 
-  const duckImg = new Image();
-  duckImg.src = '/DuckAnimation/Duck1/duck1.png';
-
   const forestImg = new Image();
   forestImg.src = '/DuckAnimation/Scene/forest.png';
 
   const vinesImg = new Image();
   vinesImg.src = '/DuckAnimation/Scene/vines.png';
-  
 
   const NUM_DUCKS = 5;
 
@@ -33,11 +29,15 @@ const DuckAnimation = () => {
     window.addEventListener('resize', resizeCanvas);
 
     let frame = 0;
-    const duckSpeed = 2;
 
-    const ducks = Array.from({ length: NUM_DUCKS }, (_, i) => ({
-      x: -30 * (i + 1),
+    const duckPaths = Array.from({ length: 6 }, (_, i) => `/DuckAnimation/Ducks/duck${i + 1}.png`);
+    const shuffled = duckPaths.sort(() => 0.5 - Math.random()).slice(0, NUM_DUCKS);
+
+    const ducks = shuffled.map((src, i) => ({
+      x: canvas.width * 0.25 + i * 20,
+      speed: (Math.random() - 0.5) * 0.4,
       laneIndex: i,
+      img: Object.assign(new Image(), { src }),
     }));
 
     const drawRiver = () => {
@@ -63,65 +63,74 @@ const DuckAnimation = () => {
     };
 
     const drawForest = (offset) => {
-        if (!forestImg.complete || !forestImg.width || !forestImg.height) return;
+      if (!forestImg.complete || !forestImg.width || !forestImg.height) return;
 
-        const forestHeight = 280;
-        const aspectRatio = forestImg.width / forestImg.height;
-        const forestWidth = forestHeight * aspectRatio;
+      const forestHeight = 280;
+      const aspectRatio = forestImg.width / forestImg.height;
+      const forestWidth = forestHeight * aspectRatio;
+      const forestY = RIVER_TOP - forestHeight + 95;
+      const adjustedOffset = offset / 1.5;
+      const repeatCount = Math.ceil(canvas.width / (forestWidth - 11)) + 2;
 
-        const forestY = RIVER_TOP - forestHeight + 95;
-
-        const repeatCount = Math.ceil(canvas.width / (forestWidth - 11)) + 2;
-
-        const adjustedOffset = offset / 1.5;
-
-        for (let i = 0; i < repeatCount; i++) {
-            const x = (i * (forestWidth - 11)) - (adjustedOffset % (forestWidth - 11));
-            ctx.drawImage(forestImg, x, forestY, forestWidth, forestHeight);
-        }
+      for (let i = 0; i < repeatCount; i++) {
+        const x = (i * (forestWidth - 11)) - (adjustedOffset % (forestWidth - 11));
+        ctx.drawImage(forestImg, x, forestY, forestWidth, forestHeight);
+      }
     };
 
     const drawVines = (offset) => {
-        if (!vinesImg.complete || !vinesImg.width || !vinesImg.height) return;
+      if (!vinesImg.complete || !vinesImg.width || !vinesImg.height) return;
 
-        const vinesHeight = 250;
-        const aspectRatio = vinesImg.width / vinesImg.height;
-        const vinesWidth = vinesHeight * aspectRatio;
+      const vinesHeight = 250;
+      const aspectRatio = vinesImg.width / vinesImg.height;
+      const vinesWidth = vinesHeight * aspectRatio;
+      const vinesY = RIVER_HEIGHT + 10;
+      const adjustedOffset = offset / 1.5;
+      const repeatCount = Math.ceil(canvas.width / (vinesWidth - 11)) + 2;
 
-        const vinesY =  RIVER_HEIGHT + 10;
-
-        const repeatCount = Math.ceil(canvas.width / (vinesWidth - 11)) + 2;
-
-        const adjustedOffset = offset / 1.5;
-
-        for (let i = 0; i < repeatCount; i++) {
-            const x = (i * (vinesWidth - 90)) - (adjustedOffset % (vinesWidth - 90))-50;
-            ctx.drawImage(vinesImg, x, vinesY, vinesWidth, vinesHeight);
-        }
+      for (let i = 0; i < repeatCount; i++) {
+        const x = (i * (vinesWidth - 90)) - (adjustedOffset % (vinesWidth - 90)) - 50;
+        ctx.drawImage(vinesImg, x, vinesY, vinesWidth, vinesHeight);
+      }
     };
+
     const animate = () => {
       frame += 1;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      
       drawRiver();
       drawForest(frame);
       drawWaves(frame);
 
-      ducks.forEach((duck, index) => {
-        duck.x += duckSpeed;
-        if (duck.x > canvas.width + 60) duck.x = -60;
+      const maxX = Math.max(...ducks.map((d) => d.x));
+      const minX = Math.min(...ducks.map((d) => d.x));
 
-        const bobOffset = Math.sin((frame + index * 30) * 0.1) * 5;
+      ducks.forEach((duck, index) => {
+        const isLeader = duck.x >= maxX - 5;
+        const isTrailing = duck.x <= minX + 5;
+
+        if (isLeader) duck.speed -= 0.001;
+        if (isTrailing) duck.speed += 0.002;
+
+        const buffer = 60;
+        if (duck.x > canvas.width - buffer) {
+          duck.speed -= 0.06;
+        } else if (duck.x < buffer) {
+          duck.speed += 0.06;
+        }
+
+        duck.speed = Math.max(-1.0, Math.min(duck.speed, 1.0));
+        duck.x += duck.speed;
+
+        const bobOffset = Math.sin((frame + index * 30) * 0.1) * 3.5;
         const duckY = RIVER_TOP + index * DUCK_SPACING + bobOffset;
 
-        if (duckImg.complete) {
-          ctx.drawImage(duckImg, duck.x, duckY, DUCK_HEIGHT, DUCK_HEIGHT);
+        if (duck.img.complete) {
+          ctx.drawImage(duck.img, duck.x, duckY, DUCK_HEIGHT, DUCK_HEIGHT);
         }
       });
-      
-      drawVines(frame);
 
+      drawVines(frame);
       requestAnimationFrame(animate);
     };
 
