@@ -6,13 +6,14 @@ const DuckAnimation = () => {
   const duckImg = new Image();
   duckImg.src = '/DuckAnimation/Duck1/duck1.png';
 
-  const wallImg = new Image();
-  wallImg.src = '/DuckAnimation/Scene/wall.png';
-
   const forestImg = new Image();
   forestImg.src = '/DuckAnimation/Scene/forest.png';
 
-  const NUM_DUCKS = 3;
+  const vinesImg = new Image();
+  vinesImg.src = '/DuckAnimation/Scene/vines.png';
+  
+
+  const NUM_DUCKS = 5;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -22,8 +23,6 @@ const DuckAnimation = () => {
     const DUCK_SPACING = 30;
     const RIVER_TOP = 100;
     const RIVER_HEIGHT = NUM_DUCKS * (DUCK_SPACING + 6);
-
-    const WALL_HEIGHT = 40; // fixed height for scaled wall
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
@@ -35,7 +34,6 @@ const DuckAnimation = () => {
 
     let frame = 0;
     const duckSpeed = 2;
-    let wallReady = true;
 
     const ducks = Array.from({ length: NUM_DUCKS }, (_, i) => ({
       x: -30 * (i + 1),
@@ -83,22 +81,24 @@ const DuckAnimation = () => {
         }
     };
 
-    const drawWall = () => {
-      if (!wallReady || !wallImg.width || !wallImg.height) return;
+    const drawVines = (offset) => {
+        if (!vinesImg.complete || !vinesImg.width || !vinesImg.height) return;
 
-      const scaledWallHeight = WALL_HEIGHT;
-      const aspectRatio = wallImg.width / wallImg.height;
-      const scaledWallWidth = scaledWallHeight * aspectRatio;
+        const vinesHeight = 250;
+        const aspectRatio = vinesImg.width / vinesImg.height;
+        const vinesWidth = vinesHeight * aspectRatio;
 
-      const wallY = RIVER_TOP + RIVER_HEIGHT - 10;
+        const vinesY =  RIVER_HEIGHT + 10;
 
-      const repeatCount = Math.ceil(canvas.width / (scaledWallWidth - 11)) + 1;
-      for (let i = 0; i < repeatCount; i++) {
-        const x = i * (scaledWallWidth - 11)-5;
-        ctx.drawImage(wallImg, x, wallY, scaledWallWidth, scaledWallHeight);
-      }
+        const repeatCount = Math.ceil(canvas.width / (vinesWidth - 11)) + 2;
+
+        const adjustedOffset = offset / 1.5;
+
+        for (let i = 0; i < repeatCount; i++) {
+            const x = (i * (vinesWidth - 90)) - (adjustedOffset % (vinesWidth - 90))-50;
+            ctx.drawImage(vinesImg, x, vinesY, vinesWidth, vinesHeight);
+        }
     };
-
     const animate = () => {
       frame += 1;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -120,7 +120,7 @@ const DuckAnimation = () => {
         }
       });
       
-      drawWall();
+      drawVines(frame);
 
       requestAnimationFrame(animate);
     };
