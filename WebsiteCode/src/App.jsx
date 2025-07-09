@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./Components/NavBar/navBar";
 import ProjectList from "./Components/ProjectList/projectList";
-import DuckRace from "./Projects/DuckRace/DuckTable";
+import DuckRace from "./Projects/DuckRace/DuckPage";
 import FlashCards from "./Projects/FlashCards/flashCards";
 import siteData from "./assets/MyWebsite.json";
 import './App.css';
