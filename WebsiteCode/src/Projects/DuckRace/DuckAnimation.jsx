@@ -9,6 +9,9 @@ const DuckAnimation = () => {
   const wallImg = new Image();
   wallImg.src = '/DuckAnimation/Scene/wall.png';
 
+  const forestImg = new Image();
+  forestImg.src = '/DuckAnimation/Scene/forest.png';
+
   const NUM_DUCKS = 3;
 
   useEffect(() => {
@@ -18,7 +21,7 @@ const DuckAnimation = () => {
     const DUCK_HEIGHT = 60;
     const DUCK_SPACING = 30;
     const RIVER_TOP = 100;
-    const RIVER_HEIGHT = NUM_DUCKS * (DUCK_SPACING + 6) + 5;
+    const RIVER_HEIGHT = NUM_DUCKS * (DUCK_SPACING + 6);
 
     const WALL_HEIGHT = 40; // fixed height for scaled wall
 
@@ -35,7 +38,7 @@ const DuckAnimation = () => {
     let wallReady = true;
 
     const ducks = Array.from({ length: NUM_DUCKS }, (_, i) => ({
-      x: -60 * (i + 1),
+      x: -30 * (i + 1),
       laneIndex: i,
     }));
 
@@ -61,6 +64,25 @@ const DuckAnimation = () => {
       ctx.stroke();
     };
 
+    const drawForest = (offset) => {
+        if (!forestImg.complete || !forestImg.width || !forestImg.height) return;
+
+        const forestHeight = 280;
+        const aspectRatio = forestImg.width / forestImg.height;
+        const forestWidth = forestHeight * aspectRatio;
+
+        const forestY = RIVER_TOP - forestHeight + 95;
+
+        const repeatCount = Math.ceil(canvas.width / (forestWidth - 11)) + 2;
+
+        const adjustedOffset = offset / 1.5;
+
+        for (let i = 0; i < repeatCount; i++) {
+            const x = (i * (forestWidth - 11)) - (adjustedOffset % (forestWidth - 11));
+            ctx.drawImage(forestImg, x, forestY, forestWidth, forestHeight);
+        }
+    };
+
     const drawWall = () => {
       if (!wallReady || !wallImg.width || !wallImg.height) return;
 
@@ -81,9 +103,10 @@ const DuckAnimation = () => {
       frame += 1;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      drawRiver();
       
-      drawWaves(frame);   // ripple lines
+      drawRiver();
+      drawForest(frame);
+      drawWaves(frame);
 
       ducks.forEach((duck, index) => {
         duck.x += duckSpeed;
@@ -115,7 +138,7 @@ const DuckAnimation = () => {
       style={{
         display: 'block',
         width: '100vw',
-        backgroundColor: '#cceeff',
+        backgroundColor: '#fff',
       }}
     />
   );
